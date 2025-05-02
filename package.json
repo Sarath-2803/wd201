@@ -18,5 +18,18 @@
   "bugs": {
     "url": "https://github.com/Sarath-2803/wd201/issues"
   },
-  "homepage": "https://github.com/Sarath-2803/wd201#readme"
+  "homepage": "https://github.com/Sarath-2803/wd201#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write ."
+    ]
+  }
 }
