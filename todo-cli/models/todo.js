@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.lt]: today }, // Fetch todos with dueDate < today
-          completed: false, // Only fetch incomplete todos
+          //completed: false, // Only fetch incomplete todos
         },
       });
     }
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: today, // Fetch todos with dueDate === today
-          completed: false, // Only fetch incomplete todos
+          //completed: false, // Only fetch incomplete todos
         },
       });
     }
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: { [Op.gt]: today }, // Fetch todos with dueDate > today
-          completed: false, // Only fetch incomplete todos
+          //completed: false, // Only fetch incomplete todos
         },
       });
     }
@@ -75,8 +75,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     displayableString() {
-      let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
+      const checkbox = this.completed ? "[x]" : "[ ]"; // Checkbox based on completion status
+      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
   }
   Todo.init(
