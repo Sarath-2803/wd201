@@ -3,6 +3,8 @@
         <tr>
             <td>
                 <%= allTodos[i].title %>
+                <%= allTodos[i].dueDate %>
+                <%= allTodos[i].completed ? "[x]" : "[]" %>
             </td>
         </tr>
         <% }
