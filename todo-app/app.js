@@ -3,10 +3,16 @@ const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+const path = require("path");
+//set ejs as the view engine
+app.set("view engine", "ejs");
 
-app.get("/", function (request, response) {
-  response.send("Hello World");
+app.get("/",async function (request, response) {
+  const allTodos = await Todo.findAll();
+  response.render('index',{ allTodos});
 });
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
