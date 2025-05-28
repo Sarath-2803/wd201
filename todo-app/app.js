@@ -64,6 +64,9 @@ app.delete("/todos/:id", async function (request, response) {
     if(deletedTodo) {
       return response.send(true);
     }
+    else{
+      return response.send(false);
+    }
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
