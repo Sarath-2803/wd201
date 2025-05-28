@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       const todayTasks = await Todo.dueToday();
       todayTasks.forEach((task) => {
-        console.log(task.displayableString());
+        console.log(task.displayableStringToday());
       });
       console.log("\n");
 
@@ -77,6 +77,11 @@ module.exports = (sequelize, DataTypes) => {
     displayableString() {
       const checkbox = this.completed ? "[x]" : "[ ]"; // Checkbox based on completion status
       return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
+    }
+
+    displayableStringToday() {
+      const checkbox = this.completed ? "[x]" : "[ ]"; // Checkbox based on completion status
+      return `${this.id}. ${checkbox} ${this.title} `;
     }
   }
   Todo.init(
