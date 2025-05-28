@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
-</head>
-<body>
-    <h1>Todo List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Due Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (var i = 0; i < allTodos.length; i++) { %>
-                <tr>
-                    <td><%= allTodos[i].title %></td>
-                    <td><%= allTodos[i].completed ? "Completed" : "Pending" %></td>
-                    <td><%= allTodos[i].dueDate %></td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
-</body>
-</html>
+<table>
+    <% for (var i=0;i < allTodos.length ;i++) { %>
+        <tr>
+            <td>
+                <%= allTodos[i].title %>
+                <%= allTodos[i].dueDate %>
+                <%= allTodos[i].completed ? "[x]" : "[]" %>
+            </td>
+        </tr>
+        <% }
+    %>
+    <tr></tr>
+</table>
