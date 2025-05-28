@@ -1,13 +1,18 @@
 <table>
-    <% for (var i=0;i < allTodos.length ;i++) { %>
+    <thead>
         <tr>
-            <td>
-                <%= allTodos[i].title %>
-                <%= allTodos[i].dueDate %>
-                <%= allTodos[i].completed ? "[x]" : "[]" %>
-            </td>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Due Date</th>
         </tr>
-        <% }
-    %>
-    <tr></tr>
+    </thead>
+    <tbody>
+        <% for (var i = 0; i < allTodos.length; i++) { %>
+            <tr>
+                <td><%= allTodos[i].title %></td>
+                <td><%= allTodos[i].completed ? "Completed" : "Pending" %></td>
+                <td><%= allTodos[i].dueDate %></td>
+            </tr>
+        <% } %>
+    </tbody>
 </table>
