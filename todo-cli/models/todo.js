@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // models/todo.js
 "use strict";
-const { Model, Op } = require("sequelize");
+const { Model, Op, DATE } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       const todayTasks = await Todo.dueToday();
       todayTasks.forEach((task) => {
-        console.log(task.displayableStringToday());
+        console.log(task.displayableString());
       });
       console.log("\n");
 
@@ -76,13 +76,16 @@ module.exports = (sequelize, DataTypes) => {
 
     displayableString() {
       const checkbox = this.completed ? "[x]" : "[ ]"; // Checkbox based on completion status
+      if(this.dueDate==new Date().toISOString().split("T")[0]) {
+        return `${this.id}. ${checkbox} ${this.title}`.trim();
+      }
       return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
 
-    displayableStringToday() {
+    /*displayableStringToday() {
       const checkbox = this.completed ? "[x]" : "[ ]"; // Checkbox based on completion status
       return `${this.id}. ${checkbox} ${this.title} `;
-    }
+    }  */
   }
   Todo.init(
     {
