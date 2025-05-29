@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <title>Todo App</title>
     <link rel="stylesheet" href="./css/styles.css"></link>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script>
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         function updateTodo(id){
             fetch(`/todos/${id}/markAsCompleted`,{
                 method : 'put',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({
+                   "_csrf": token
+                })
             } )
             .then((res)=>{
                 window.location.reload();
@@ -28,6 +33,9 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({
+                   "_csrf": token
+                })
             })
             .then((res)=>{
                 window.location.reload();
@@ -44,6 +52,7 @@
             <%- include('header') -%>
 
         <form action="/todos" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="flex py-5 gap-2">
                 <div class="flex-auto">
                     <input type="text" name="title" id="todoInput" placeholder="Add a new todo" class="border border-gray-300 rounded px-2 py-1 w-full">
