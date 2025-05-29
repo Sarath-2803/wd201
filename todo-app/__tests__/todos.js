@@ -30,23 +30,23 @@ describe("Todo Application", function () {
     expect(response.statusCode).toBe(302);
   });
 
-  // test("Marks a todo with the given ID as complete", async () => {
-  //   const response = await agent.post("/todos").send({
-  //     title: "Buy milk",
-  //     dueDate: new Date().toISOString(),
-  //     completed: false,
-  //   });
-  //   const parsedResponse = JSON.parse(response.text);
-  //   const todoID = parsedResponse.id;
+  test("Marks a todo with the given ID as complete", async () => {
+    const response = await agent.post("/todos").send({
+      title: "Buy milk",
+      dueDate: new Date().toISOString(),
+      completed: false,
+    });
+    const parsedResponse = JSON.parse(response.text);
+    const todoID = parsedResponse.id;
 
-  //   expect(parsedResponse.completed).toBe(false);
+    expect(parsedResponse.completed).toBe(false);
 
-  //   const markCompleteResponse = await agent
-  //     .put(`/todos/${todoID}/markASCompleted`)
-  //     .send();
-  //   const parsedUpdateResponse = JSON.parse(markCompleteResponse.text);
-  //   expect(parsedUpdateResponse.completed).toBe(true);
-  // });
+    const markCompleteResponse = await agent
+      .put(`/todos/${todoID}/markASCompleted`)
+      .send();
+    const parsedUpdateResponse = JSON.parse(markCompleteResponse.text);
+    expect(parsedUpdateResponse.completed).toBe(true);
+  });
 
   // test("Fetches all todos in the database using /todos endpoint", async () => {
   //   await agent.post("/todos").send({

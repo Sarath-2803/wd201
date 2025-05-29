@@ -11,7 +11,12 @@ app.set("view engine", "ejs");
 
 app.get("/",async function (request, response) {
   const allTodos = await Todo.findAll();
+  if(request.accepts("html")) {
   response.render('index',{ allTodos });
+  }
+  else{
+    response.json(allTodos);
+  }
 });
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -66,15 +71,14 @@ app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   // FILL IN YOUR CODE HERE
   try {
-    const deletedTodo = await Todo.destroy({
-      where : { id: request.params.id }
-    });
-    if(deletedTodo) {
-      return response.send(true);
-    }
-    else{
-      return response.send(false);
-    }
+    await Todo.remove(request.params.id);
+    return response.json({success: true});
+    // if(deletedTodo) {
+    //   return response.send(true);
+    // }
+    // else{
+    //   return response.send(false);
+    // }
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
