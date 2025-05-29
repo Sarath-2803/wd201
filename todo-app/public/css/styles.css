@@ -2,3 +2,7 @@ body{
     color:green;
     background-color: #f0f0f0;
 }
+
+.todo-item:hover .trash-icon{
+    display: block;
+}

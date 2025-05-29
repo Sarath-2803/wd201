@@ -9,7 +9,7 @@ app.set("view engine", "ejs");
 
 app.get("/",async function (request, response) {
   const allTodos = await Todo.findAll();
-  response.render('index',{ allTodos});
+  response.render('index',{ allTodos });
 });
 
 app.use(express.static(path.join(__dirname, "public")));

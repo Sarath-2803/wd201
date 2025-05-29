@@ -1,18 +1,49 @@
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Due Date</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="py-10 col-start-3">
+    <h5 class="font-bold">Overdue</h5>
+    <ul class="list-none">
+        <% var countOverdue = 0; %>
         <% for (var i = 0; i < allTodos.length; i++) { %>
-            <tr>
-                <td><%= allTodos[i].title %></td>
-                <td><%= allTodos[i].completed ? "Completed" : "Pending" %></td>
-                <td><%= allTodos[i].dueDate %></td>
-            </tr>
+            <% if (allTodos[i].dueDate < new Date().toISOString().split('T')[0]) { %>
+                <% countOverdue++; %>
+                <li class="todo-item">
+                    <div class="flex w-fit my-2 px-2 py-1 items-center">
+                        <label class="text-black "><%= allTodos[i].title %></label>
+                    </div>
+                </li>    
+            <% } %>
         <% } %>
-    </tbody>
-</table>
+        <label id="count-overdue" class="py-4 text-blue-500">count-overdue = <%= countOverdue %></label>
+    </ul>
+
+    <h5 class="font-bold mt-4">Due Today</h5>
+    <ul class="list-none">
+        <% var countDueToday = 0; %>
+        <% for (var i = 0; i < allTodos.length; i++) { %>
+            <% if (allTodos[i].dueDate === new Date().toISOString().split('T')[0]) { %>
+                <% countDueToday++; %>
+                <li class="todo-item">
+                    <div class="flex w-fit my-2 px-2 py-1 items-center">
+                        <label><%= allTodos[i].title %></label>
+                    </div>
+                </li>
+            <% } %>
+        <% } %>
+        <label id="count-due-today" class="py-4 text-blue-500">count-due-today = <%= countDueToday %></label>
+    </ul>
+
+    <h5 class="font-bold mt-4">Due Later</h5>
+    <ul class="list-none">
+        <% var countDueLater = 0; %>
+        <% for (var i = 0; i < allTodos.length; i++) { %>
+            <% if (allTodos[i].dueDate > new Date().toISOString().split('T')[0]) { %>
+                <% countDueLater++; %>
+                <li class="todo-item">
+                    <div class="flex w-fit my-2 px-2 py-1 items-center">
+                        <label><%= allTodos[i].title %></label>
+                    </div>
+                </li>
+            <% } %>
+        <% } %>
+        <label id="count-due-later" class="py-4 text-blue-500">count-due-later = <%= countDueLater %></label>
+    </ul>
+</div>

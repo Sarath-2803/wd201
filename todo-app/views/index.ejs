@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo App</title>
     <link rel="stylesheet" href="./css/styles.css"></link>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-    <%- include('header') -%>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <%- include('header') -%>
+
+        <form>
+            <div class="flex py-5 gap-2">
+                <div class="flex-auto">
+                    <input type="text" id="todoInput" placeholder="Add a new todo" class="border border-gray-300 rounded px-2 py-1 w-full">
+                </div>
+                <div class="flex-auto">
+                    <input type="date" id="dueDateInput" class="border border-gray-300 rounded px-2 py-1 w-full">
+                </div>
+                <div class="flex-none">
+                    <button type="submit" id="addTodoButton" class="border bg-green-500 text-black  py-1.5 rounded px-2">Add</button>
+                </div>
+            </div>
+        </form>
+
+        
+
+    </div>
+    
+
     <%- include('todos') -%>
     <%- include('footer') -%>
+    
 </body>
 </html>
