@@ -12,13 +12,13 @@
         <div class="col-start-3 col-span-2">
             <%- include('header') -%>
 
-        <form>
+        <form action="/todos" method="post">
             <div class="flex py-5 gap-2">
                 <div class="flex-auto">
-                    <input type="text" id="todoInput" placeholder="Add a new todo" class="border border-gray-300 rounded px-2 py-1 w-full">
+                    <input type="text" name="title" id="todoInput" placeholder="Add a new todo" class="border border-gray-300 rounded px-2 py-1 w-full">
                 </div>
                 <div class="flex-auto">
-                    <input type="date" id="dueDateInput" class="border border-gray-300 rounded px-2 py-1 w-full">
+                    <input type="date" name="dueDate" id="dueDateInput" class="border border-gray-300 rounded px-2 py-1 w-full">
                 </div>
                 <div class="flex-none">
                     <button type="submit" id="addTodoButton" class="border bg-green-500 text-black  py-1.5 rounded px-2">Add</button>
