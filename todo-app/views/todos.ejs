@@ -1,4 +1,4 @@
-<div class="py-10 col-start-3">
+<!-- <div class="py-10 col-start-3">
     <h5 class="font-bold">Overdue</h5>
     <ul class="list-none">
         <% var countOverdue = 0; %>
@@ -86,4 +86,120 @@
         <% } %>
         <label id="count-completed" class="py-4 text-blue-500">count-completed = <%= countCompleted %></label>
     </ul>
+</div> -->
+
+<div class="py-10 col-start-3">
+    <h5 class="font-bold">Overdue</h5>
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+        <thead>
+            <tr>
+                <th class="border border-gray-400 px-4 py-2">Status</th>
+                <th class="border border-gray-400 px-4 py-2">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var countOverdue = 0; %>
+            <% for (var i = 0; i < allTodos.length; i++) { %>
+                <% if (allTodos[i].dueDate < new Date().toISOString().split('T')[0]) { %>
+                    <% countOverdue++; %>
+                    <tr>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <input type="checkbox" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
+                        </td>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <label class="text-black" for="todoCheckbox<%= allTodos[i].id %>"><%= allTodos[i].title %></label>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
+    <label id="count-overdue" class="py-4 text-blue-500">count-overdue = <%= countOverdue %></label>
+</div>
+
+<div class="py-10 col-start-3">
+    <h5 class="font-bold mt-4">Due Today</h5>
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+        <thead>
+            <tr>
+                <th class="border border-gray-400 px-4 py-2">Status</th>
+                <th class="border border-gray-400 px-4 py-2">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var countDueToday = 0; %>
+            <% for (var i = 0; i < allTodos.length; i++) { %>
+                <% if (allTodos[i].dueDate === new Date().toISOString().split('T')[0]) { %>
+                    <% countDueToday++; %>
+                    <tr>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <input type="checkbox" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
+                        </td>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <label class="text-black" for="todoCheckbox<%= allTodos[i].id %>"><%= allTodos[i].title %></label>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
+    <label id="count-due-today" class="py-4 text-blue-500">count-due-today = <%= countDueToday %></label>
+</div>
+
+<div class="py-10 col-start-3">
+    <h5 class="font-bold mt-4">Due Later</h5>
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+        <thead>
+            <tr>
+                <th class="border border-gray-400 px-4 py-2">Status</th>
+                <th class="border border-gray-400 px-4 py-2">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var countDueLater = 0; %>
+            <% for (var i = 0; i < allTodos.length; i++) { %>
+                <% if (allTodos[i].dueDate > new Date().toISOString().split('T')[0]) { %>
+                    <% countDueLater++; %>
+                    <tr>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <input type="checkbox" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
+                        </td>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <label class="text-black" for="todoCheckbox<%= allTodos[i].id %>"><%= allTodos[i].title %></label>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
+    <label id="count-due-later" class="py-4 text-blue-500">count-due-later = <%= countDueLater %></label>
+</div>
+
+<div class="py-10 col-start-3">
+    <h5 class="font-bold mt-4">Completed Items</h5>
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+        <thead>
+            <tr>
+                <th class="border border-gray-400 px-4 py-2">Status</th>
+                <th class="border border-gray-400 px-4 py-2">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var countCompleted = 0; %>
+            <% for (var i = 0; i < allTodos.length; i++) { %>
+                <% if (allTodos[i].completed) { %>
+                    <% countCompleted++; %>
+                    <tr>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <input type="checkbox" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
+                        </td>
+                        <td class="border border-gray-400 px-4 py-2">
+                            <label class="text-black" for="todoCheckbox<%= allTodos[i].id %>"><%= allTodos[i].title %></label>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
+    <label id="count-completed" class="py-4 text-blue-500">count-completed = <%= countCompleted %></label>
 </div>
