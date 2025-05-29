@@ -7,7 +7,7 @@
             <% if (allTodos[i].dueDate < new Date().toISOString().split('T')[0]) { %>
                 <% countOverdue++; %>
                 <!-- <li class="todo-item"> -->
-                    <tr>
+                    <tr class="Todo-Item">
                         <td>
                     <div class="flex w-fit my-2 px-2 py-1 items-center">
                         <input type="checkbox" class="mr-2" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
@@ -40,8 +40,8 @@
             <% if (allTodos[i].dueDate === new Date().toISOString().split('T')[0] ) { %>
                 <% countDueToday++; %>
                 <!-- <li class="todo-item"> -->
-                    <tr>
-                        <td>
+                    <tr class="Todo-Item">
+                        <td >
                             <div class="flex w-fit my-2 px-2 py-1 items-center">
                                 <input type="checkbox" class="mr-2" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
                                 <label class="text-black" for="todoCheckbox<%= allTodos[i].id %>"><%= allTodos[i].title %></label>
@@ -68,12 +68,13 @@
 
     <h5 class="font-bold mt-4">Due Later</h5>
     <!-- <ul class="list-none"> -->
+        <table>
         <% var countDueLater = 0; %>
         <% for (var i = 0; i < allTodos.length; i++) { %>
             <% if (allTodos[i].dueDate > new Date().toISOString().split('T')[0]) { %>
                 <% countDueLater++; %>
                 <!-- <li class="todo-item"> -->
-                    <tr>
+                    <tr class="Todo-Item">
                         <td>
                             <div class="flex w-fit my-2 px-2 py-1 items-center">
                                 <input type="checkbox" class="mr-2" id="todoCheckbox<%= allTodos[i].id %>" name="todoCheckbox<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> value="<%= allTodos[i].id %>" onclick="updateTodo('<%= allTodos[i].id %>')">
@@ -95,7 +96,7 @@
                 <label id="count-due-later" class="py-4 text-blue-500">count-due-later = <%= countDueLater %></label>
             </td>
         </tr>
-        
+    </table>
     <!-- </ul> -->
 
     <h5 class="font-bold mt-4">Completed Items</h5>

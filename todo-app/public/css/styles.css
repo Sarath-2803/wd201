@@ -3,6 +3,7 @@ body{
     background-color: #f0f0f0;
 }
 
-.todo-item:hover .trash-icon{
+.Todo-Item:hover .trash-icon{
     display: block;
+    cursor: pointer;
 }
