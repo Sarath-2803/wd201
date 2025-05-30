@@ -7,75 +7,16 @@
     <title>Todo App</title>
     <link rel="stylesheet" href="./css/styles.css"></link>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        // function updateTodo(id){
-        //     fetch(`/todos/${id}/markAsCompleted`,{
-        //         method : 'put',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //            "_csrf": token
-        //         })
-        //     } )
-        //     .then((res)=>{
-        //         window.location.reload();
-        //     })
-        //     .catch((err)=>{
-        //         console.error('Error updating todo:', err);
-        //     });
-        // }
-
-        function updateTodo(id) {
-    const checkbox = document.getElementById(`todoCheckbox${id}`);
-    fetch(`/todos/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        completed: checkbox.checked, // Send the current checkbox state
-        _csrf: token
-      })
-    })
-    .then((res) => {
-      if (res.ok) {
-        window.location.reload(); // Reload the page to reflect changes
-      } else {
-        console.error('Failed to update todo');
-      }
-    })
-    .catch((err) => {
-      console.error('Error updating todo:', err);
-    });
-  }
-
-        function deleteTodo(id){
-            fetch(`/todos/${id}`, {
-                method: 'delete',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                   "_csrf": token
-                })
-            })
-            .then((res)=>{
-                window.location.reload();
-            })
-            .catch((err)=>{
-                console.error('Error deleting todo:', err);
-            });
-        }
-    </script>
 </head>
 <body>
     <div class="grid grid-cols-6">
         <div class="col-start-3 col-span-2">
             <%- include('header') -%>
 
-        <form action="/todos" method="post">
+            <p class="py-2 text-black" >new user? <a href="/signup" class="text-green-500">Signup now</a></p>
+            <p class="py-2 text-black">have acc? <a href="/login" class="text-green-500">Login</a></p>
+
+        <!-- <form action="/todos" method="post">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="flex py-5 gap-2">
                 <div class="flex-auto">
@@ -88,15 +29,14 @@
                     <button type="submit" id="addTodoButton" class="border bg-green-500 text-black  py-1.5 rounded px-2">Add</button>
                 </div>
             </div>
-        </form>
+        </form> -->
 
         
 
     </div>
     
 
-    <%- include('todos') -%>
-    <%- include('footer') -%>
+   
     
 </body>
 </html>
