@@ -10,7 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false,
+        validate:{
+          notEmpty: { msg : "Title cannot be empty" },
+        }
       },
       dueDate: {
         type: Sequelize.DATEONLY

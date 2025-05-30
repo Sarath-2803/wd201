@@ -10,7 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "First name cannot be empty" }
+        }
       },
       lastName: {
         type: Sequelize.STRING
@@ -18,7 +22,10 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+          notEmpty: { msg: "Email cannot be empty" }
+        }
       },
       password: {
         type: Sequelize.STRING

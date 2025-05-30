@@ -4,29 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<%= csrfToken %>">
-    <title> <%= title %></title>
+    <title><%= title %></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
     <div class="grid grid-cols-6">
         <div class="col-start-3 col-span-2">
             <%- include('header') -%>
-            <h6 class="py-4">SignIn as existing User</h6>
-            <form action="/session" method="post" >
+            <h6 class="py-4">Sign In as Existing User</h6>
+            <form action="/session" method="post">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="py-3">
-                <label>Email</label>
-                <input type="email" name="email" class="border w-full rounded">
+                    <label>Email</label>
+                    <input type="email" name="email" class="border w-full rounded" required>
                 </div>
                 <div class="py-3">
-                <label>Password</label>
-                <input type="password" name="password" class="border w-full rounded">
+                    <label>Password</label>
+                    <input type="password" name="password" class="border w-full rounded" required>
                 </div>
-                <button type="submit" class="bg-green-500 py-2 px-2 border rounded text-white">Sign in</button>
-
+                <button type="submit" class="bg-green-500 py-2 px-2 border rounded text-white">Sign In</button>
             </form>
+
+            <!-- Display Flash Messages -->
+            <% if (messages && messages.length > 0) { %>
+                <ul class="text-red-500 py-3">
+                    <% messages.forEach(message => { %>
+                        <li><%= message %></li>
+                    <% }); %>
+                </ul>
+            <% } %>
         </div>
     </div>
-    
 </body>
 </html>

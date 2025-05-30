@@ -5,12 +5,14 @@ const app = express();
 const { Todo,User } = require("./models");
 const bodyParser = require("body-parser"); 
 const path = require("path");
+app.set("views", path.join(__dirname, "views"));
 const { request } = require("http");
 
 
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
 const session = require("express-session");
+const flash = require("connect-flash");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
 const { title } = require("process");
@@ -25,32 +27,46 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("some string"));
 app.use(csurf("this_should_be_32_chracters_long", ["POST", "PUT", "DELETE"]));
 
+
 app.use(session({
   secret:"some secret super key",
   cookie:{
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }))
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use(function(request, response, next) {
+//   response.locals.messages = request.flash();
+//   next();
+// });
 
 passport.use(new LocalStrategy({
   usernameField: "email",
   passwordField: "password"
-},(username,password,done)=>{
-  User.findOne({ where: { email: username } })
-  .then(async (user) => {
-    const result = await bcrypt.compare(password, user.password)
-    if(result){
-      return done(null, user);
-    } else{
-      return done("invalid password")
+},async (username,password,done)=>{
+  const user =await User.findOne({ where: { email: username } });
+  try{
+    if(user){
+      const result = await bcrypt.compare(password, user.password);
+      if (result) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: "Invalid password" });
+      }
     }
-    
-  }).catch((error) => {
-    return error;
-  });
+    else{
+      return done(null, false, { message: "User not found" });
+      
+    }
+  }
+  catch{
+    (error) => {
+      return done(error);
+    }
+  }
 }))
 
 passport.serializeUser((user, done) => {
@@ -92,6 +108,7 @@ app.get("/todos",connectEnsureLogin.ensureLoggedIn(), async function (request, r
     dueToday,
     dueLater,
     completed,
+    messages: request.flash(),
     csrfToken: request.csrfToken() });
   }
   else{
@@ -114,14 +131,25 @@ app.post("/users",async (request, response) => {
       email: request.body.email,
       password: hashedPassword
     })
+    
     request.login(user, (err) => {
       if (err) {
         console.log(err);
       }
       response.redirect("/todos");
     })
+  
+
   } catch (error) {
+    if (error.name === "SequelizeValidationError") {
+      // Handle validation errors
+      const errorMessages = error.errors.map((err) => err.message);
+      request.flash("error", errorMessages); // Set flash messages for validation errors
+      return response.redirect("/signup");
+    }
     console.log(error);
+    request.flash("error", "An unexpected error occurred. Please try again.");
+    response.redirect("/signup");
   }
   
 });
@@ -129,14 +157,23 @@ app.post("/users",async (request, response) => {
 app.get("/login", (request, response) => {
   response.render("login",{
     title: "Login", 
+    messages: request.flash("error"),
     csrfToken: request.csrfToken()
   })
 }
 );
 
-app.post('/session',passport.authenticate('local',{ failureRedirect: '/login' }),(request, response) => {
-  response.redirect('/todos');
-})
+app.post(
+  "/session",
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
+  function (request, response) {
+    console.log(request.user);
+    response.redirect("/todos");
+  }
+);
 
 app.get("/signout",(request,response,next)=>{
   request.logout((err) =>{
@@ -181,9 +218,15 @@ app.post("/todos",connectEnsureLogin.ensureLoggedIn(), async function (request, 
       dueDate: request.body.dueDate,
       userId: request.user.id // Use the logged-in user's ID
     });
+    response.flash("success", "Todo added successfully");
     return response.redirect("/todos");
   } catch (error) {
     console.log(error);
+    if(error.name === "SequelizeValidationError") {
+      const messages = error.errors.map((err) => err.message);
+      response.flash("error", messages);
+      return response.redirect("/todos");
+    }
     return response.status(422).json(error);
   }
 });
